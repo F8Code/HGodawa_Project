@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Add/Delete PPT Files</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5; /* Set the background color */
+            margin: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #ede7d5; /* Set the card background color */
+            border: 3px solid #ada999;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 250px; /* Adjust width as needed */
+        }
+
+        .card-title {
+            font-size: 12px;
+            text-align: center;
+            word-wrap: break-word;
+            padding: 5px;
+        }
+        
+        .card-content {
+            padding: 3px;
+            word-wrap: break-word;
+        }
+
+        .card-title h1 {
+            margin-bottom: 1px;
+        }
+
+        .card-content p {
+            font-size: 11px; /* Decrease the font size for the description */
+            margin: 2px 0; /* Adjust the margin as needed */
+        }
+
+        .card-actions {
+            padding: 2px;
+            text-align: right;
+        }
+        
+        .card-actions .btn {
+            padding: 8px 16px;
+            background-color: #c9c9c9;
+            color: #0f0f0f;
+            border: 2px solid #0a0a0a;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .card-actions .btn:hover {
+            background-color: #9c9c9c;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-container p {
+            margin: 5px 0;
+        }
+
+        .form-container .btn-container {
+            margin-top: 10px;
+        }
+
+        .form-container hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .form-container .upload-btn {
+            padding: 8px 16px;
+            background-color: #ede7d5;
+            color: #0f0f0f;
+            border: 3px solid #ada999;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container .upload-btn:hover {
+            background-color: #b0ad9d;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 20px;
+        }
+        
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            margin: 10px 0;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="title">
+        <h1>PPT File database </h1>
+    </div>
+    <div class="divider"></div>  
+    
+    <h1>Upload: </h1>
+    <div class="form-container">
+        <h:form enctype="multipart/form-data">
+            <p>File Name:  <h:inputText value="#{dbBean.name}" /></p>
+            <p>Description: <h:inputText value="#{dbBean.description}" /></p>
+            <p>Choose File: <h:inputFile value="#{dbBean.file}" /></p>
+            <div class="btn-container">
+                <h:commandButton styleClass="upload-btn" value="Upload" action="#{dbBean.uploadFile}" />
+            </div>
+        </h:form>      
+    </div>
+    <div class="divider"></div>  
+    
+    <h1>Download/Delete: </h1>
+    <div class="card-container">
+        <ui:repeat value="#{dbBean.getPPTFiles()}" var="pptFile">
+            <div class="card">
+                <div class="card-title">
+                    <h1>#{pptFile.fileName}</h1> <!-- Display file name as title -->
+                </div>
+                <div class="card-content">
+                    <p><strong>Description:</strong> #{pptFile.description}</p> <!-- Display description -->
+                </div>
+                <p></p>
+                <div class="card-actions">
+                    <h:form>
+                        <h:commandButton styleClass="btn" value="Download" action="#{dbBean.downloadFile(pptFile.id)}" />
+                        <h:commandButton styleClass="btn" value="Delete" action="#{dbBean.deleteFile(pptFile.id)}" />
+                    </h:form>
+                </div>
+            </div>
+        </ui:repeat>
+    </div>
+</h:body>
+
+</html>
